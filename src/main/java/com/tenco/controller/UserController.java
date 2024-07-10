@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 import com.tenco.model.UserDAO;
@@ -52,6 +54,8 @@ public class UserController extends HttpServlet {
 			// 회원 가입 페이지로 보내는 동작 처리
 			request.getRequestDispatcher("/WEB-INF/views/signUp.jsp").forward(request, response);
 			break;
+		
+		
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
@@ -72,17 +76,59 @@ public class UserController extends HttpServlet {
 		
 		switch (action) {
 		case "/signIn":
+			signIn(request, response); // ctr + 1 번 클릭 후 메서드 생성
 			// 로그인 페이지로 보내는 동작 처리
 			// /WEB-INF 는 보안폴더
 			break;
 		case "/signUp":
 			// 회원 가입 페이지로 보내는 동작 처리
-			signUp(request, response);
+			signUp(request, response); // ctr + 1 번 클릭 후 메서드 생성
 			break;
+			
 		default:
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			break;
 		}
+		
+	}
+	
+	// 로그인 처리 기능
+	/* @param request
+	 * @param response
+	*/
+	private void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// URL, 인증검사, 유효성 검사, 서비스 로직 DAO --> 전달, 뷰를 호출
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		// 유효성 검사
+		if(username == null || password.trim().isEmpty()) {
+			response.sendRedirect("signIn?message=invaild");
+			return; 
+		}
+		
+		
+		UserDTO user = userDAO.getUserByUsername(username);
+		// null 이 떨어지면 --> 회원가입이 되어있지 않는 사용자이다.
+		// 빠른 평가 기법
+		if(user != null && user.getPassword().equals(password)) {
+			
+			
+			// 세션 생성
+			HttpSession session = request.getSession();
+			// 세션 키 - 값 지정 (유저정보 모두를 넣음)
+			session.setAttribute("principal", user);
+			
+			response.sendRedirect("/mvc/todo/todoForm");
+			//
+			// TODO -  로그인 --> todoFrom 화면 이동 처리 todoForm 화면 이동 기능 추가 예정
+			// response.sendRedirect("");
+			System.out.println("로그인 처리 완료");
+		} else {
+			response.sendRedirect("signIn?message=invalid");
+		}
+		
+		// 비밀번호 비교 --> dto.getPassword(); 
 		
 	}
 
@@ -118,12 +164,15 @@ public class UserController extends HttpServlet {
 				.email(email)
 				.build();
 		
+	//	int resultRowCount = 0;
 		int resultRowCount = userDAO.addUser(userDTO);
 		System.out.println("resultRowCount : " + resultRowCount);
+		
 		if(resultRowCount == 1) {
-			response.sendRedirect("user/signIn?message=success");
+			response.sendRedirect("signIn?message=success");
 		} else {
-			response.sendRedirect("user/signUp?message=error");
+			System.out.println("11111111111111111111111"); 
+			response.sendRedirect("signUp?message=error"); // 상대경로
 		}
 		
 		
