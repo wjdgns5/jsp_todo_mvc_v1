@@ -17,34 +17,11 @@
 
 	<%
 	
-	List<TodoDTO> todoList = new ArrayList<TodoDTO>();
-    TodoDTO todo1  = TodoDTO.builder().id(1).title("할일1")
-    		.description("놀기")
-    		.dueDate(new Date())
-    		.completed(false)
-    		.userId(1)
-    		.build();
-    
-    TodoDTO todo2  = TodoDTO.builder().id(1).title("할일1")
-    		.description("놀기")
-    		.dueDate(new Date())
-    		.completed(false)
-    		.userId(1)
-    		.build();
-    
-    TodoDTO todo3  = TodoDTO.builder().id(1).title("할일1")
-    		.description("놀기")
-    		.dueDate(new Date())
-    		.completed(false)
-    		.userId(1)
-    		.build();
-    
-    todoList.add(todo1);
-    todoList.add(todo2);
-    todoList.add(todo3);
-    
+	List<TodoDTO> todoList = (List<TodoDTO>)request.getAttribute("list");
+	
+	// out.print("todoList " + todoList);
     // out.print(todoList.toString());
-
+    
 	if (todoList != null && !todoList.isEmpty()) {
 	%>
 
@@ -66,10 +43,10 @@
 			<td><%=todo.getTitle()%></td>
 			<td><%=todo.getDescription()%></td>
 			<td><%=todo.getDueDate()%></td>
-			<td><%=todo.getCompleted() == "true" ? "완료" : "미완료"%></td>
+			<td><%=todo.completedToString() == "true" ? "완료" : "미완료"%></td>
 			<td><a href="detail?id=<%=todo.getId()%>">상세보기</a> <!--  삭제 기능 -->
-				<form action="delete">
-					<input type="hidden" name="id" value="<%=todo.getId()%> ">
+				<form action="delete" method="get">
+					<input type="hidden" name="id" value="<%=todo.getId()%>">
 					<button type="submit">삭제</button>
 				</form></td>
 		</tr>
@@ -83,26 +60,12 @@
 	} else {
 	%>
 
-	<hr>
-	<p>등록된 할 일이 없습니다.</p>
-
+		<hr>
+		<p>등록된 할 일이 없습니다.</p>
+	
 	<%
 	}
 	%>
-
-
-	<hr>
-
-	<p>등록된 할 일이 없습니다.</p>
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

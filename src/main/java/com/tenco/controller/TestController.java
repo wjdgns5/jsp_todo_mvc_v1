@@ -55,23 +55,23 @@ public class TestController extends HttpServlet {
 			break;
 		}
 		
-		// http://localhost:8080/mvc/test/t1
+	// http://localhost:8080/mvc/test/t1
 		
-		//TodoDTO todoDTO = todoDAO.getTodoById(1);
-		// System.out.println(todoDTO.toString());
+//	TodoDTO todoDTO = todoDAO.getTodoById(1);
+//	System.out.println(todoDTO.toString());
+		
+	//		List<TodoDTO> list = todoDAO.getTodosByUserId(1);
+	//		System.out.println(list.toString());
 		 
-	//	List<TodoDTO> todoDTO = todoDAO.getTodosByUserId(2);
-	//	System.out.println(todoDTO.toString());
+//	List<TodoDTO> todoDTO = todoDAO.getALLTodos();
+//	System.out.println(todoDTO.toString());
 		
-	//	List<TodoDTO> todoDTO = todoDAO.getALLTodos();
-	//	System.out.println(todoDTO.toString());
-		
-	//	TodoDTO dto = new TodoDTO();
-	//	todoDAO.updateTodo(dto, 1);
+	//	todoDAO.updateTodo(new TodoDTO(), 1);
 	//	System.out.println(todoDAO.toString());
 		
-		
-		
+//		TodoDTO dto = new TodoDTO();
+//		todoDAO.updateTodo(dto, 1);
+//		System.out.println(todoDAO.toString());
 		
 	//	 todoDAO.deleteTodo(2, 1);
 	//	 System.out.println(todoDAO.toString());

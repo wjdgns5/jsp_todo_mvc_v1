@@ -16,7 +16,7 @@
 		String success = (String)request.getParameter("message");
 		if(success != null){
 	%>	
-		<p style="color:red"> <%=success %> </p>	
+		<p style="color:red"> <%=success%> </p>	
 		
 	<% } %>
 	<!--  절대 경로로 사용 해보기 -->
